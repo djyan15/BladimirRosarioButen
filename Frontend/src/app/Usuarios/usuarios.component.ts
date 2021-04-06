@@ -13,25 +13,34 @@ export class UsuariosComponent implements OnInit {
 
   showForm = false;
   submitted = false;
-  Usuario: Usuario[];
+  Usuarios: Usuario[];
   todayDate = new Date().toISOString().split("T")[0];
-  Departamento: Departamento[];
+  Departamentos: Departamento[];
   public FormUsuario: FormGroup;
   constructor(private _service: UsuariosService, private readonly _formB: FormBuilder) { }
 
   ngOnInit() {
     this.InitForm();
+    this.LoadDepartamento();
+
   }
 
   LoadUsuarios() {
     this._service.getUsuarios().subscribe(resp => {
-      this.Usuario = resp as Usuario[];
+      this.Usuarios = resp as Usuario[];
+      for (let i = 0; i < this.Usuarios.length; i++) {
+        this.Usuarios[i].departamento = this.Departamentos.find(x => x.idDepartamento === this.Usuarios[i].idDepartamento ).nombre;
+
+      }
     });
   }
 
-  // LoadDepartamento() {
-  //   this._service.ge
-  // }
+  LoadDepartamento() {
+    this._service.getDepartamento().subscribe(resp =>{
+      this.Departamentos = resp as Departamento[];
+      this.LoadUsuarios();
+    });
+  }
 
   public InitForm() {
     this.FormUsuario = this._formB.group({
@@ -56,6 +65,11 @@ export class UsuariosComponent implements OnInit {
 
     this._service.postUsuario(this.FormUsuario.value).subscribe(resp => {
       alert("Usuario guardado correctamente");
+      this.submitted = false;
+      this.FormUsuario.reset();
+      this.showForm = false;
+      this.LoadDepartamento();
+      this.LoadUsuarios();
     });
   }
 }

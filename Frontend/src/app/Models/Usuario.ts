@@ -5,7 +5,8 @@ export class Usuario {
   public FechaNacimiento?: Date;
   public Genero?: string;
   public Cedula?: string;
-  public IdDepartamento?: number;
+  public idDepartamento?: number;
+  public departamento?: string;
   public Cargo?: string;
   public SupervisorInmediato?:string;
 

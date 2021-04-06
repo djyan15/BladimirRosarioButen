@@ -1,5 +1,5 @@
 export class Departamento {
-  public IdDepartamento?: number;
-  public Nombre?: string;
+  public idDepartamento?: number;
+  public nombre?: string;
   public Codigo?: string;
 }

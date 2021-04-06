@@ -17,16 +17,19 @@
                 <th scope="col">Supervisor Inmediato</th>
             </tr>
         </thead>
+        <div *ngIf="Usuarios.length == 0" class="alert alert-dark" role="alert">
+            No hay usuarios registrados
+        </div>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+            <tr *ngFor="let user of Usuarios">
+                <th scope="row">{{user.idUsuario}}</th>
+                <td>{{user.nombres}} {{user.apellidos}} </td>
+                <td>{{user.genero}}</td>
+                <td>{{user.cedula | mask: '000-0000000-0' }}</td>
+                <td>{{user.fechaNacimiento | date: 'mediumDate' }}</td>
+                <td>{{user.departamento}}</td>
+                <td>{{user.cargo}}</td>
+                <td>{{user.supervisorInmediato}}</td>
             </tr>
         </tbody>
     </table>
@@ -105,11 +108,7 @@
             <label for="departamento">Departamento</label>
             <div class="col-10">
                 <select class="form-control" [ngClass]="{'is-invalid' : FormUsuario.controls['IdDepartamento'].invalid && submitted}" formControlName="IdDepartamento" id="departamento">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option *ngFor="let depart of Departamentos" [value]="depart.idDepartamento">{{depart.nombre}} ({{depart.codigo}})</option>
               </select>
 
             </div>
